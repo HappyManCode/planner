@@ -1,6 +1,8 @@
 package cloud.capybaara.planner.task;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -19,13 +21,13 @@ public class TaskController {
     }
 
     @PostMapping(path = "/create")
-    public Task create(@RequestBody TaskRequest taskRequest, Principal principal) {
-        String userEmail = principal.getName();
+    public Task create(@RequestBody TaskRequest taskRequest, @AuthenticationPrincipal UserDetails userDetails) {
+        String userEmail = userDetails.getUsername();
         return taskService.create(taskRequest, userEmail);
     }
 
     @PostMapping(path = "/edit")
-    public Task edit(@RequestBody TaskEditRequest taskEditRequest, Principal principal) {
+    public boolean edit(@RequestBody TaskEditRequest taskEditRequest, Principal principal) {
         String userEmail = principal.getName();
 
         return taskService.edit(taskEditRequest, userEmail);
@@ -39,8 +41,8 @@ public class TaskController {
     }
 
     //TODO: сделать доступ только для админа
-    @GetMapping(path = "/all")
+    /*@GetMapping(path = "/all")
     public List<Task> getAllTasks() {
         return taskService.getAllTasks();
-    }
+    }*/
 }

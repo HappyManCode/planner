@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Data
-@Builder
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,4 +24,10 @@ public class Task {
     private Boolean completed = false;
     private Long userId;
 
+    public Task(String description, TaskPriority taskPriority, Boolean completed, Long userId) {
+        this.description = description;
+        this.taskPriority = taskPriority;
+        this.completed = completed;
+        this.userId = userId;
+    }
 }
